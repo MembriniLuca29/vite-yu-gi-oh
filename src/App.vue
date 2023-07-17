@@ -1,18 +1,35 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import headerComponent from './components/headerComponent.vue';
+import mainComponent from './components/mainComponent.vue';
+import footerComponent from './components/footerComponent.vue';
+
+export default {
+  name: "app",
+  components: {
+    headerComponent,
+    mainComponent,
+    footerComponent,
+  },
+};
 </script>
 
 <template>
-  <div>
-  <h1>prova</h1>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <headerComponent/>
+
+  <mainComponent/>
+
+  <footerComponent/>
+
 </template>
 
 <style lang="scss" scoped>
-$brand_primary: green;
+@use "assets/scss/main";
+body{
+  margin: 0;
+}
 
-h1{
-  color: $brand_primary;
+#app{
+  margin: 0;
+  padding: 0;
 }
 </style>
