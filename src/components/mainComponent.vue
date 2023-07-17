@@ -1,10 +1,18 @@
 <script>
-import singleCardComponent from './singleCardComponent.vue';
 export default {
-  components: {
-    singleCardComponent
-  },
+ 
+  props:{
+    cardInfo: {
+        type:Object,
+        default:[]
+    },
+    image: {
+        type:Array,
+        default:[]
+    }
+  }
 };
+
 </script>
 
 <template>
@@ -21,8 +29,15 @@ export default {
                 <div class="quantity ">
                     <h4>found 39 cards</h4>
                 </div>
-                <div class="card-container">
-                    <singleCardComponent/>
+                <div class="card-container"
+                >
+                    <div class="card"
+                    v-for="(card, i) in cardInfo" :key="i">
+                    <img :src="image[i]" alt="">
+                        <h3> {{cardInfo[i].name }}</h3>
+                        <h5>{{cardInfo[i].archetype}}</h5>
+                    </div>
+    
                 </div>
             </div>
         </div>
@@ -33,7 +48,7 @@ export default {
     .fluid-container{
         background-color: #D48F38;
         select{
-            margin: 40px 100px;
+            margin: 40px 200px;
             padding: 10px 80px 10px 0px;
             font-size: 1.5rem;
         }
@@ -57,7 +72,27 @@ export default {
             }
         }
     }
-
+    .card{
+    margin: 0 10px 10px 10px;
+    width: calc((100% / 5) - 20px );
+    height: 700px;
+    background-color:#D48F38 ;
+    text-align: center;
+    flex-wrap: wrap;
+    img{
+        width: 100%;
+        height: 500px;
+    }
+    h3{
+        font-size: 2rem;
+        color: white;
+        font-weight: bold;
+    }
+    h5{
+        font-size: 1.2rem;
+        font-weight: lighter;
+    }
+}
    
 
 </style>
