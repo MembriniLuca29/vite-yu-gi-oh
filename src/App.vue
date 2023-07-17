@@ -36,8 +36,8 @@ export default {
 <template>
   <headerComponent/>
   <div v-if="loading">
+      <div class="caricamento"> <p>Caricamento in corso...</p></div>
       
-      <p>Caricamento in corso...</p>
     </div>
     <div  v-else>
   <mainComponent :cardInfo="cardInfo" :image="image"/></div>
@@ -54,5 +54,20 @@ body{
 #app{
   margin: 0;
   padding: 0;
+}
+.caricamento{
+  width: 80%;
+  margin: 0 auto;
+  display: flex; 
+  align-items: center;
+  height: 900px;
+  background-image: url(./assets/img/3e024-ragazzamaganera4_full.png);
+  background-repeat: no-repeat;
+  p{
+    font-size: 10rem;
+    color: purple;
+    text-align: center;
+    
+  }
 }
 </style>

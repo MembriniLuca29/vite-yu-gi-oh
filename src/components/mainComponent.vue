@@ -35,7 +35,7 @@ export default {
                     v-for="(card, i) in cardInfo" :key="i">
                     <img :src="image[i]" alt="">
                         <h3> {{cardInfo[i].name }}</h3>
-                        <h5>{{cardInfo[i].archetype}}</h5>
+                        <h5>{{cardInfo[i].type}}</h5>
                     </div>
     
                 </div>
@@ -75,13 +75,13 @@ export default {
     .card{
     margin: 0 10px 10px 10px;
     width: calc((100% / 5) - 20px );
-    height: 700px;
+    min-height: 400px;
     background-color:#D48F38 ;
     text-align: center;
     flex-wrap: wrap;
     img{
         width: 100%;
-        height: 500px;
+        max-height: 70%;
     }
     h3{
         font-size: 2rem;
@@ -94,5 +94,4 @@ export default {
     }
 }
    
-
 </style>
