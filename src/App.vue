@@ -12,6 +12,7 @@ export default {
   },
   data() {
     return{
+      loading: true,
       cardInfo: [],
       image: []
     };
@@ -26,6 +27,7 @@ export default {
         
         this.image = this.cardInfo.map(obj => obj.card_images[0].image_url)
         console.log(this.image[1]);
+        this.loading = false;
       });
   }
 };
@@ -33,8 +35,12 @@ export default {
 
 <template>
   <headerComponent/>
-
-  <mainComponent :cardInfo="cardInfo" :image="image"/>
+  <div v-if="loading">
+      
+      <p>Caricamento in corso...</p>
+    </div>
+    <div  v-else>
+  <mainComponent :cardInfo="cardInfo" :image="image"/></div>
 
 
 </template>
