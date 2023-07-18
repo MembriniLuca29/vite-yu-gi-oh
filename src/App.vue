@@ -2,6 +2,7 @@
 import headerComponent from './components/headerComponent.vue';
 import mainComponent from './components/mainComponent.vue';
 import axios from 'axios' ;
+import { store } from './store.js';
 
 export default {
   name: "app",
@@ -11,11 +12,10 @@ export default {
   
   },
   data() {
-    return{
-      loading: true,
-      cardInfo: [],
-      image: []
-    };
+    return {
+      
+            store:store,
+        };
   },
   created() {
     axios
@@ -23,11 +23,10 @@ export default {
       .then(response =>  {
         console.log(response.data.data);
         
-        this.cardInfo = response.data.data
-        
-        this.image = this.cardInfo.map(obj => obj.card_images[0].image_url)
-        console.log(this.image[1]);
-        this.loading = false;
+        this.store.cardInfo = response.data.data;
+        this.store.image = this.store.cardInfo.map(obj => obj.card_images[0].image_url);
+        console.log(this.store.image[1]);
+        this.store.loading = false;
       });
   }
 };
@@ -35,12 +34,12 @@ export default {
 
 <template>
   <headerComponent/>
-  <div v-if="loading">
+  <div v-if="store.loading">
       <div class="caricamento"> <p>Caricamento in corso...</p></div>
       
     </div>
     <div  v-else>
-  <mainComponent :cardInfo="cardInfo" :image="image"/></div>
+  <mainComponent :cardInfo="store.cardInfo" :image="store.image"/></div>
 
 
 </template>
@@ -61,13 +60,14 @@ body{
   display: flex; 
   align-items: center;
   height: 900px;
-  background-image: url(./assets/img/3e024-ragazzamaganera4_full.png);
+  background-image: url(./assets/img/la-giovane-maga-nera-yu-gi-oh-raddoppia-quest-ultimo-cosplay-v3-432482-1280x960.jpg);
   background-repeat: no-repeat;
+  transition: 2s ease-in-out;
   p{
     font-size: 10rem;
-    color: purple;
+    color: blue;
     text-align: center;
-    
+    font-weight: bold;
   }
 }
 </style>

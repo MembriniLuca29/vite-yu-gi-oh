@@ -1,5 +1,11 @@
 <script>
+import { store } from '../store.js';
 export default {
+    data() {
+        return {
+            store
+        }
+    },
  
   props:{
     cardInfo: {
@@ -17,13 +23,16 @@ export default {
 
 <template>
     <div class="fluid-container">
+        
         <div class="col-auto">
-            <select class="form-select" aria-label="Select a status">
-                <option selected>alien</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+            <form action="">
+                <select class="form-select" aria-label="Select a status">
+                    <option selected>alien</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </form>
 
             <div class="my-container">
                 <div class="quantity ">
