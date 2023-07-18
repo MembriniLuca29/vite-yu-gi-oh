@@ -1,57 +1,92 @@
 <script>
 import { store } from '../store.js';
+import axios from 'axios';
+
 export default {
-    data() {
-        return {
-            store
-        }
-    },
- 
-  props:{
+  data() {
+    return {
+      store: store,
+      archetypes: [],
+      selectedArchetype: "", // Archetipo selezionato nella select
+    };
+  },
+  props: {
     cardInfo: {
-        type:Object,
-        default:[]
+      type: Object,
+      default: [],
     },
     image: {
-        type:Array,
-        default:[]
-    }
-  }
+      type: Array,
+      default: [],
+    },
+  },
+  created() {
+    this.fetchArchetypes();
+  },
+  methods: {
+    fetchArchetypes() {
+      axios
+        .get("https://db.ygoprodeck.com/api/v7/archetypes.php")
+        .then(response => {
+          this.archetypes = response.data;
+          console.log(this.archetypes[0].archetype_name);
+        })
+        .catch(error => {
+          console.log('Errore nella chiamata');
+        });
+    },
+    filterByArchetype() {
+      if (this.selectedArchetype == "") {
+        return this.cardInfo;
+      } else {
+        return this.cardInfo.filter(
+          card => card.archetype == this.selectedArchetype
+        );
+      }
+    },
+  },
+  computed: {
+    filteredCardInfo() {
+      return this.filterByArchetype();
+    },
+    filteredImages() {
+      const filteredCardInfo = this.filterByArchetype();
+      return filteredCardInfo.map(obj => obj.card_images[0].image_url);
+    },
+  },
 };
-
 </script>
 
 <template>
-    <div class="fluid-container">
-        
-        <div class="col-auto">
-            <form action="">
-                <select class="form-select" aria-label="Select a status">
-                    <option selected>alien</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </form>
+  <div class="fluid-container">
+    <div class="col-auto">
+      <form action="">
+        <select class="form-select" aria-label="Select an archetype" v-model="selectedArchetype">
+          <option value="">All Archetypes</option>
+          <option v-for="archetype in archetypes" :value="archetype.archetype_name" :key="archetype.archetype_name">
+            {{ archetype.archetype_name }}
+          </option>
+        </select>
+      </form>
 
-            <div class="my-container">
-                <div class="quantity ">
-                    <h4>found 39 cards</h4>
-                </div>
-                <div class="card-container"
-                >
-                    <div class="card"
-                    v-for="(card, i) in cardInfo" :key="i">
-                    <img :src="image[i]" alt="">
-                        <h3> {{cardInfo[i].name }}</h3>
-                        <h5>{{cardInfo[i].type}}</h5>
-                    </div>
-    
-                </div>
-            </div>
+      <div class="my-container">
+        <div class="quantity">
+          <h4>found {{ filteredCardInfo.length }} cards</h4>
         </div>
+        <div class="card-container">
+          <div class="card" v-for="(card, i) in filteredCardInfo" :key="i">
+            <img :src="filteredImages[i]" alt="">
+            <h3>{{ card.name }}</h3>
+            <h5>{{ card.archetype }}</h5>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
+
+
+
 
 <style lang="scss" scoped>
     .fluid-container{
@@ -96,10 +131,12 @@ export default {
         font-size: 2rem;
         color: white;
         font-weight: bold;
+        height:10%;
     }
     h5{
         font-size: 1.2rem;
         font-weight: lighter;
+        height: 15%;
     }
 }
    
